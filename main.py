@@ -27,3 +27,4 @@ p300.return_tip()
 #print out commands so we can check the simulation
 for line in protocol.commands(): 
         print(line)
+#wuddup fam
