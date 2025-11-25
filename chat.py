@@ -34,6 +34,12 @@ p300.flow_rate.aspirate = 80
 p300.flow_rate.dispense = 40
 p300.flow_rate.blow_out = 150
 
+#speeds discussed in class
+high=1.8
+normal=1.0
+slow=0.5
+vslow=0.25
+
 # Columns for the serial dilution
 # We dilute from column 1 -> 2 -> 3 ... -> 11
 # Column 12 remains PBS only (blank control)
