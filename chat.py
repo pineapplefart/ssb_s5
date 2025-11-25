@@ -40,6 +40,12 @@ normal=1.0
 slow=0.5
 vslow=0.25
 
+#heigh parameters
+bottom = 1
+a = 0.5
+middle = bottom + a
+top = bottom + 2*a
+
 # Columns for the serial dilution
 # We dilute from column 1 -> 2 -> 3 ... -> 11
 # Column 12 remains PBS only (blank control)
