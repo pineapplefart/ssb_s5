@@ -71,7 +71,8 @@ for row in rows:
         p300.dispense(
             dilution_volume,
             dest.bottom(dispense_height),
-            rate=dispense_rate
+            rate=dispense_rate,
+            push_out=1
         )
 
         # Mix the destination well to homogenise the dilution
