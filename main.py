@@ -58,7 +58,7 @@ def run(protocol: protocol_api.ProtocolContext):
 
         for col in range(1,10):  
                 #top_row=plate.rows()[0]
-                dest = plate[f'A{col}']
+                dest = plate[f'A{col+1}']
 
                 p300.pick_up_tip()
 
