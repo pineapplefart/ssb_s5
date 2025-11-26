@@ -105,7 +105,24 @@ def run(protocol: protocol_api.ProtocolContext):
                         rate=p300.flow_rate.dispense,
                         
                 )
+
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
                 p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
+        p300.aspirate(
+                100, 
+                plate['A11'],
+                rate=slow
+                )
+        p300.dispense(
+                150,
+                waste.bottom(),
+                rate=high
+        )
         p300.drop_tip()
         for line in protocol.commands():
                 print(line)
