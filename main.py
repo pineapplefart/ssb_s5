@@ -11,10 +11,10 @@ metadata = {
 def run(protocol: protocol_api.ProtocolContext):
         #protocol = simulate.get_protocol_api('2.15')
 
-        plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
-        tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
+        plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 3)
+        tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
         p300 = protocol.load_instrument('p300_multi_gen2', 'left', tip_racks = [tiprack_1])
-        reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 3)
+        reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 2)
 
         high = 1.8     
         normal = 1.0  
