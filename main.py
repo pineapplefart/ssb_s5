@@ -9,7 +9,7 @@ metadata = {
     }
 
 def run(protocol: protocol_api.ProtocolContext):
-        #protocol = simulate.get_protocol_api('2.19')
+        #protocol = simulate.get_protocol_api('2.15')
 
         plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
         tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
@@ -49,21 +49,16 @@ def run(protocol: protocol_api.ProtocolContext):
 
         rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
-        # ============================================================
-        # STEP 1 – PREFILL PLATE
-        #   Col 1: fluorescein (200 µL)
-        #   Col 2–12: PBS (100 µL)
-        # ============================================================
-        #fluorescein alloquot
-
+        #Fluorescein
         p300.pick_up_tip()
         p300.aspirate(fluorescein_volume, fluorescein_src(res_asp_height), rate=slow)
         p300.dispense(fluorescein_volume, plate['A1'], rate=slow, blow_out=True)
         
         #PBS Alloquot
-        for col in range(2, 13):  
 
-                dest = plate[f'{col}1']
+        for col in range(1,10):  
+                #top_row=plate.rows()[0]
+                dest = plate[f'A{col}']
 
                 p300.pick_up_tip()
 
