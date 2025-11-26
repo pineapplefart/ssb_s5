@@ -13,7 +13,7 @@ def run(protocol: protocol_api.ProtocolContext):
 
         plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
         tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
-        p300 = protocol.load_instrument('p300_single_gen2', 'right', tip_racks=[tiprack_1])
+        p300 = protocol.load_instrument('p300_multi_gen2', 'left', tip_racks = [tiprack_1])
         reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 3)
 
         high = 1.8     
