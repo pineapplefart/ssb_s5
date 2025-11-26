@@ -7,16 +7,16 @@ metadata = {
 }
 def run(protocol: protocol_api.ProtocolContext):
     #Labware
-    plate = protocol.load_labware('corning_96_wellplate_360ul_flat', 1)
+    plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
     tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
 
     #pipettes
     p300 = protocol.load_instrument('p300_single_gen2', 'right', tip_racks=[tiprack_1])
 
     #Resevoir
-    reservoir = protocol.load_labware('usascientific_12_reservoir_22ml', 3)
+    reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 3)
 
-    trash = protocol.load_trash_bin("A3")
+
 
     # -----------------------
     # Global parameters
@@ -60,31 +60,44 @@ def run(protocol: protocol_api.ProtocolContext):
     start_column = 1
     last_source_column = 10  # 1→2, 2→3, ..., 10→11
 
-    #rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+    # -----------------------
+    # Volumes (µL)
+    # -----------------------
+
+    # Prefill stage
+    fluorescein_volume = 200     # col 1
+    pbs_volume = 100             # cols 2–12
+
+    # Serial dilution stage
+    dilution_volume = 100        # transfer volume col n -> col n+1
+    mix_volume = 150             # volume used in each mix cycle
+
     #Alliquots
     for row in rows:
-    dest = plate[f'{row}1']  # A1, B1, ..., H1
+        dest = plate[f'{row}1']  # A1, B1, ..., H1
 
-    p300.pick_up_tip()
+        p300.pick_up_tip()
 
-    # Aspirate fluorescein from reservoir at slow speed to avoid bubbles
-    p300.aspirate(
-        fluorescein_volume,
-        fluorescein_src.bottom(res_asp_height),
-        rate=slow
-    )
+        # Aspirate fluorescein from reservoir at slow speed to avoid bubbles
+        p300.aspirate(
+            fluorescein_volume,
+            fluorescein_src.bottom(res_asp_height),
+            rate=slow
+        )
 
-    # Dispense into plate well at normal speed
-    p300.dispense(
-        fluorescein_volume,
-        dest.bottom(plate_disp_height),
-        rate=normal
-    )
+        # Dispense into plate well at normal speed
+        p300.dispense(
+            fluorescein_volume,
+            dest.bottom(plate_disp_height),
+            rate=normal
+        )
 
-    # Blow out at top of well to clear residual liquid
-    p300.blow_out(dest.top())
+        # Blow out at top of well to clear residual liquid
+        p300.blow_out(dest.top())
 
-    p300.drop_tip()
+        p300.drop_tip()
 
 # --- Fill columns 2–12 with PBS ---
     for col in range(2, 13):  # 2..12

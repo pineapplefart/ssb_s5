@@ -63,77 +63,51 @@ def run(protocol: protocol_api.ProtocolContext):
     # ============================================================
 
     for row in rows:
-            dest = plate[f'{row}1']  
+        dest = plate[f'{row}1']  
+
+        p300.pick_up_tip()
+
+        
+        p300.aspirate(
+            fluorescein_volume,
+            fluorescein_src.bottom(res_asp_height),
+            rate=slow
+        )
+
+        
+        p300.dispense(
+            fluorescein_volume,
+            dest.bottom(plate_disp_height),
+            rate=normal
+        )
+
+        
+        p300.blow_out(dest.top())
+
+        p300.drop_tip()
+
+    for col in range(2, 13):  
+        for row in rows:
+            dest = plate[f'{row}{col}']
 
             p300.pick_up_tip()
 
-            
             p300.aspirate(
-                    fluorescein_volume,
-                    fluorescein_src.bottom(res_asp_height),
-                    rate=slow
+            pbs_volume,
+            pbs_src.bottom(res_asp_height),
+            rate=slow
             )
 
-            
             p300.dispense(
-                    fluorescein_volume,
-                    dest.bottom(plate_disp_height),
-                    rate=normal
+            pbs_volume,
+            dest.bottom(plate_disp_height),
+            rate=normal
             )
 
-            
             p300.blow_out(dest.top())
 
             p300.drop_tip()
 
-    for col in range(2, 13):  
-            for row in rows:
-                    dest = plate[f'{row}{col}']
-
-                    p300.pick_up_tip()
-
-                    p300.aspirate(
-                    pbs_volume,
-                    pbs_src.bottom(res_asp_height),
-                    rate=slow
-                    )
-
-                    p300.dispense(
-                    pbs_volume,
-                    dest.bottom(plate_disp_height),
-                    rate=normal
-                    )
-
-                    p300.blow_out(dest.top())
-
-                    p300.drop_tip()
-
-
-
-    start_column = 1
-    last_source_column = 10  
-
-
-    for col in range(start_column, last_source_column + 1):
-            p300.pick_up_tip()
-            source = plate[f'A{col}']       
-            dest = plate[f'A{col + 1}']     
-
-
-            p300.aspirate(
-                    dilution_volume,
-                    source.bottom(plate_asp_height),
-                    rate= p300.flow_rate.aspirate
-            )
-
-
-            p300.dispense(
-                    dilution_volume,
-                    dest.bottom(plate_disp_height),
-                    rate=p300.flow_rate.dispense,
-                    push_out=1
-            )
-            p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
-            p300.drop_tip()
+    
     for line in protocol.commands():
             print(line)

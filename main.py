@@ -54,34 +54,14 @@ def run(protocol: protocol_api.ProtocolContext):
         #   Col 1: fluorescein (200 µL)
         #   Col 2–12: PBS (100 µL)
         # ============================================================
-
-        for row in rows:
-                dest = plate[f'{row}1']  
-
-                p300.pick_up_tip()
-
-                
-                p300.aspirate(
-                        fluorescein_volume,
-                        fluorescein_src.bottom(res_asp_height),
-                        rate=slow
+        #fluorescein alloquot
+        p300.transfer(
+                fluorescein_volume, fluorescein_src.bottom[res_asp_height], plate['A1'], mix_before = (3, 50), blow_out = True, new_tip = 'once'
                 )
-
-                
-                p300.dispense(
-                        fluorescein_volume,
-                        dest.bottom(plate_disp_height),
-                        rate=normal
-                )
-
-                
-                p300.blow_out(dest.top())
-
-                p300.drop_tip()
-
+        #PBS Alloquot
         for col in range(2, 13):  
                 for row in rows:
-                        dest = plate[f'{row}{col}']
+                        dest = plate[f'{col}1']
 
                         p300.pick_up_tip()
 
