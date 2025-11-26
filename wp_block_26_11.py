@@ -55,7 +55,7 @@ def run(protocol: protocol_api.ProtocolContext):
     start_column = 1
     last_source_column = 10  # 1→2, 2→3, ..., 10→11
 
-    rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    #rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
     #Block Commands
     for col in range(start_column, last_source_column + 1):
