@@ -13,6 +13,11 @@ def run(protocol: protocol_api.ProtocolContext):
     #pipettes
     p300 = protocol.load_instrument('p300_single_gen2', 'right', tip_racks=[tiprack_1])
 
+    #Resevoir
+    reservoir = protocol.load_labware('usascientific_12_reservoir_22ml', 3)
+
+    trash = protocol.load_trash_bin("A3")
+
     # -----------------------
     # Global parameters
     # -----------------------
@@ -56,8 +61,56 @@ def run(protocol: protocol_api.ProtocolContext):
     last_source_column = 10  # 1→2, 2→3, ..., 10→11
 
     #rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    #Alliquots
+    for row in rows:
+    dest = plate[f'{row}1']  # A1, B1, ..., H1
 
-    #Block Commands
+    p300.pick_up_tip()
+
+    # Aspirate fluorescein from reservoir at slow speed to avoid bubbles
+    p300.aspirate(
+        fluorescein_volume,
+        fluorescein_src.bottom(res_asp_height),
+        rate=slow
+    )
+
+    # Dispense into plate well at normal speed
+    p300.dispense(
+        fluorescein_volume,
+        dest.bottom(plate_disp_height),
+        rate=normal
+    )
+
+    # Blow out at top of well to clear residual liquid
+    p300.blow_out(dest.top())
+
+    p300.drop_tip()
+
+# --- Fill columns 2–12 with PBS ---
+    for col in range(2, 13):  # 2..12
+        for row in rows:
+            dest = plate[f'{row}{col}']
+
+            p300.pick_up_tip()
+
+            p300.aspirate(
+                pbs_volume,
+                pbs_src.bottom(res_asp_height),
+                rate=slow
+            )
+
+            p300.dispense(
+                pbs_volume,
+                dest.bottom(plate_disp_height),
+                rate=normal
+            )
+
+            p300.blow_out(dest.top())
+
+            p300.drop_tip()`
+
+
+    #Dilutions
     for col in range(start_column, last_source_column + 1):
         p300.pick_up_tip()
         source = plate[f'A{col}']       # e.g. A1, A2, ...

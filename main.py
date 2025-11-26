@@ -1,31 +1,132 @@
 from opentrons import simulate
-metadata = {'apiLevel': '2.19'}
-protocol = simulate.get_protocol_api('2.19')
+from opentrons import protocol_api
 
-#Labware
-plate = protocol.load_labware('corning_96_wellplate_360ul_flat', 1)
-tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
+metadata = {
+    "apiLevel": "2.0",
+    "protocolName": "Serial Dilutions",
+    "description": "This protocol is the outcome of the iGEM Serial Dilution Standard Protocol",
+    "author": "Robin Blackwell et al"
+    }
 
-#pipettes
-p300 = protocol.load_instrument('p300_single_gen2', 'right', tip_racks=[tiprack_1])
-#lines below set flow rates, without this would run at default speed
-p300.flow_rate.aspirate = 80
-p300.flow_rate.dispense = 40
-p300.flow_rate.blow_out = 150
+def run(protocol: protocol_api.ProtocolContext):
+        protocol = simulate.get_protocol_api('2.19')
 
-#complex commands
-p300.transfer(100, plate['A1'], plate['B1'], mix_before=(2,50), touch_tip=True, blow_out=True, blowout_location='destination well', new_tip='always') 
+        plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
+        tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
+        p300 = protocol.load_instrument('p300_single_gen2', 'right', tip_racks=[tiprack_1])
+        reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 3)
 
-#block commands
-p300.pick_up_tip()
-p300.aspirate(100, plate['A2'])
-p300.dispense(100, plate['B2'])
-#mix(repetitions, volume, location, rate)
-p300.mix(3, 50, plate['B2'], 0.5)
-p300.blow_out(plate['B2'].bottom(10))
-p300.return_tip()
-#print out commands so we can check the simulation
-for line in protocol.commands(): 
-        print(line)
-#wuddup fam
-#wuddup
+        high = 1.8     
+        normal = 1.0  
+        slow = 0.5     
+        vslow = 0.25   
+
+        p300.flow_rate.aspirate = 80
+        p300.flow_rate.dispense = 40
+        p300.flow_rate.blow_out = 150
+
+        fluorescein_volume = 200     
+        pbs_volume = 100             
+
+
+        dilution_volume = 100        
+        mix_volume = 150             
+
+        res_asp_height = 1.5
+
+        plate_asp_height = 1.0
+        plate_disp_height = 1.0
+
+        mix_low_height = 0.8
+        mix_mid_height = 1.5
+        mix_high_height = 2.5
+
+
+        fluorescein_src = reservoir['A1']   
+        pbs_src = reservoir['A2']           
+        waste = reservoir['A12']            
+
+
+        rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+        # ============================================================
+        # STEP 1 – PREFILL PLATE
+        #   Col 1: fluorescein (200 µL)
+        #   Col 2–12: PBS (100 µL)
+        # ============================================================
+
+        for row in rows:
+                dest = plate[f'{row}1']  
+
+                p300.pick_up_tip()
+
+                
+                p300.aspirate(
+                        fluorescein_volume,
+                        fluorescein_src.bottom(res_asp_height),
+                        rate=slow
+                )
+
+                
+                p300.dispense(
+                        fluorescein_volume,
+                        dest.bottom(plate_disp_height),
+                        rate=normal
+                )
+
+                
+                p300.blow_out(dest.top())
+
+                p300.drop_tip()
+
+        for col in range(2, 13):  
+                for row in rows:
+                        dest = plate[f'{row}{col}']
+
+                        p300.pick_up_tip()
+
+                        p300.aspirate(
+                        pbs_volume,
+                        pbs_src.bottom(res_asp_height),
+                        rate=slow
+                        )
+
+                        p300.dispense(
+                        pbs_volume,
+                        dest.bottom(plate_disp_height),
+                        rate=normal
+                        )
+
+                        p300.blow_out(dest.top())
+
+                        p300.drop_tip()
+
+
+
+        start_column = 1
+        last_source_column = 10  
+
+
+        for col in range(start_column, last_source_column + 1):
+                p300.pick_up_tip()
+                source = plate[f'A{col}']       
+                dest = plate[f'A{col + 1}']     
+
+
+                p300.aspirate(
+                        dilution_volume,
+                        source.bottom(plate_asp_height),
+                        rate= p300.flow_rate.aspirate
+                )
+
+
+                p300.dispense(
+                        dilution_volume,
+                        dest.bottom(plate_disp_height),
+                        rate=p300.flow_rate.dispense,
+                        push_out=1
+                )
+                p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
+                p300.drop_tip()
+        for line in protocol.commands():
+                print(line)
