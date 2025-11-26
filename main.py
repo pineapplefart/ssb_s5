@@ -48,7 +48,7 @@ def run(protocol: protocol_api.ProtocolContext):
                 
 
 
-        rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+        #rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
         #Fluorescein
         p300.pick_up_tip()
@@ -58,11 +58,12 @@ def run(protocol: protocol_api.ProtocolContext):
         
         #PBS Alloquot
 
-        for col in range(1,11):  
+        p300.pick_up_tip()
+        for col in range(2,13):  
                 #top_row=plate.rows()[0]
-                dest = plate[f'A{col+1}']
+                dest = plate[f'A{col}']
 
-                p300.pick_up_tip()
+               
 
                 p300.aspirate(
                 pbs_volume,
@@ -77,16 +78,16 @@ def run(protocol: protocol_api.ProtocolContext):
                 )
 
                 p300.blow_out(dest.top())
-
-                p300.drop_tip()
+        p300.drop_tip()
 
 
 
        
 
         #Dilutions
+        p300.pick_up_tip()
         for col in range(1,11):
-                p300.pick_up_tip()
+                
                 source = plate[f'A{col}']       
                 dest = plate[f'A{col + 1}']     
 
@@ -105,6 +106,6 @@ def run(protocol: protocol_api.ProtocolContext):
                         
                 )
                 p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
-                p300.drop_tip()
+        p300.drop_tip()
         for line in protocol.commands():
                 print(line)
