@@ -45,8 +45,7 @@ def run(protocol: protocol_api.ProtocolContext):
         fluorescein_src = reservoir['A1']   
         pbs_src = reservoir['A2']           
         waste = reservoir['A12']   
-        start_column = 1
-        last_source_column = 10           
+                
 
 
         rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
@@ -59,7 +58,7 @@ def run(protocol: protocol_api.ProtocolContext):
         
         #PBS Alloquot
 
-        for col in range(start_column, last_source_column + 1):  
+        for col in range(1,11):  
                 #top_row=plate.rows()[0]
                 dest = plate[f'A{col+1}']
 
@@ -86,7 +85,7 @@ def run(protocol: protocol_api.ProtocolContext):
        
 
         #Dilutions
-        for col in range(start_column, last_source_column + 1):
+        for col in range(1,11):
                 p300.pick_up_tip()
                 source = plate[f'A{col}']       
                 dest = plate[f'A{col + 1}']     
