@@ -51,12 +51,13 @@ def run(protocol: protocol_api.ProtocolContext):
 
         #Fluorescein
         p300.pick_up_tip()
-        p300.aspirate(fluorescein_volume, fluorescein_src(res_asp_height), rate=slow)
-        p300.dispense(fluorescein_volume, plate['A1'], rate=slow, blow_out=True)
+        p300.aspirate(fluorescein_volume, fluorescein_src.bottom(res_asp_height), rate=slow)
+        p300.dispense(fluorescein_volume, plate['A1'], rate=slow)
+        p300.blow_out(plate['A1'].top())
         
         #PBS Alloquot
 
-        for col in range(1,10):  
+        for col in range(start_column, last_source_column + 1):  
                 #top_row=plate.rows()[0]
                 dest = plate[f'A{col+1}']
 
@@ -101,7 +102,7 @@ def run(protocol: protocol_api.ProtocolContext):
                         dilution_volume,
                         dest.bottom(plate_disp_height),
                         rate=p300.flow_rate.dispense,
-                        push_out=1
+                        
                 )
                 p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
                 p300.drop_tip()
