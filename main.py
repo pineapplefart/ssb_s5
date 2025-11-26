@@ -2,10 +2,10 @@ from opentrons import simulate
 from opentrons import protocol_api
 
 metadata = {
-    "apiLevel": "2.0",
+    "apiLevel": "2.15",
     "protocolName": "Serial Dilutions",
     "description": "This protocol is the outcome of the iGEM Serial Dilution Standard Protocol",
-    "author": "Robin Blackwell et al"
+    "author": "Wilson et al"
     }
 
 def run(protocol: protocol_api.ProtocolContext):
