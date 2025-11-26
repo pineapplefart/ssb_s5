@@ -55,7 +55,7 @@ def run(protocol: protocol_api.ProtocolContext):
         p300.aspirate(fluorescein_volume, fluorescein_src.bottom(res_asp_height), rate=slow)
         p300.dispense(fluorescein_volume, plate['A1'], rate=slow)
         p300.blow_out(plate['A1'].top())
-        
+        p300.drop_tip()
         #PBS Alloquot
 
         p300.pick_up_tip()
