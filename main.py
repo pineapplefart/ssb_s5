@@ -55,38 +55,40 @@ def run(protocol: protocol_api.ProtocolContext):
         #   Col 2–12: PBS (100 µL)
         # ============================================================
         #fluorescein alloquot
-        p300.transfer(
-                fluorescein_volume, fluorescein_src.bottom(res_asp_height), plate['A1'], blow_out = True, new_tip = 'once'
-                )
+
+        p300.pick_up_tip()
+        p300.aspirate(fluorescein_volume, fluorescein_src(res_asp_height), rate=slow)
+        p300.dispense(fluorescein_volume, plate['A1'], rate=slow, blow_out=True)
+        
         #PBS Alloquot
         for col in range(2, 13):  
-                for row in rows:
-                        dest = plate[f'{col}1']
 
-                        p300.pick_up_tip()
+                dest = plate[f'{col}1']
 
-                        p300.aspirate(
-                        pbs_volume,
-                        pbs_src.bottom(res_asp_height),
-                        rate=slow
-                        )
+                p300.pick_up_tip()
 
-                        p300.dispense(
-                        pbs_volume,
-                        dest.bottom(plate_disp_height),
-                        rate=normal
-                        )
+                p300.aspirate(
+                pbs_volume,
+                pbs_src.bottom(res_asp_height),
+                rate=slow
+                )
 
-                        p300.blow_out(dest.top())
+                p300.dispense(
+                pbs_volume,
+                dest.bottom(plate_disp_height),
+                rate=normal
+                )
 
-                        p300.drop_tip()
+                p300.blow_out(dest.top())
+
+                p300.drop_tip()
 
 
 
         start_column = 1
         last_source_column = 10  
 
-
+        #Dilutions
         for col in range(start_column, last_source_column + 1):
                 p300.pick_up_tip()
                 source = plate[f'A{col}']       
