@@ -1,4 +1,4 @@
-from opentrons import simulate
+#from opentrons import simulate
 from opentrons import protocol_api
 
 metadata = {
@@ -106,12 +106,12 @@ def run(protocol: protocol_api.ProtocolContext):
                         
                 )
 
-                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
-                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
-                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
-                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
-                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=slow)
-                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=normal)
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=normal)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=high)
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=high)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=high)
+                p300.aspirate(mix_volume,dest.bottom(mix_low_height),rate=high)
+                p300.dispense(mix_volume,dest.bottom(mix_low_height),rate=slow)
                 p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=20)
         p300.aspirate(
                 100, 
