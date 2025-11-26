@@ -9,7 +9,7 @@ metadata = {
     }
 
 def run(protocol: protocol_api.ProtocolContext):
-        protocol = simulate.get_protocol_api('2.19')
+        #protocol = simulate.get_protocol_api('2.19')
 
         plate = protocol.load_labware('costar3370flatbottomtransparent_96_wellplate_200ul', 1)
         tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 2)
