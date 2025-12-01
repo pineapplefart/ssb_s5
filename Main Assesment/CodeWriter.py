@@ -1,7 +1,7 @@
 import csv
 from textwrap import dedent
 
-DESIGN_CSV = "S5_DOE_attempt_1.csv"  
+DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_1.txt"
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     
@@ -25,11 +25,6 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
         tiprack_1 = protocol.load_labware('opentrons_96_tiprack_300ul', 1)
         p300 = protocol.load_instrument('p300_multi_gen2', 'left', tip_racks=[tiprack_1])
         reservoir = protocol.load_labware('4ti0136_96_wellplate_2200ul', 2)
-
-        high   = 1.8
-        normal = 1.0
-        slow   = 0.5
-        vslow  = 0.25
 
         p300.flow_rate.aspirate = 80
         p300.flow_rate.dispense = 40
@@ -60,12 +55,12 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
         p300.aspirate(
             fluorescein_volume,
             fluorescein_src.bottom(res_asp_height),
-            rate=slow
+            rate=asp_rate
         )
         p300.dispense(
             fluorescein_volume,
-            plate['A1'],
-            rate=slow
+            plate['A1'].bottom(plate_disp_height),
+            rate=disp_rate
         )
         p300.blow_out(plate['A1'].top())
         p300.drop_tip()
@@ -76,12 +71,12 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
             p300.aspirate(
                 pbs_volume,
                 pbs_src.bottom(res_asp_height),
-                rate=slow
+                rate=asp_rate
             )
             p300.dispense(
                 pbs_volume,
                 dest.bottom(plate_disp_height),
-                rate=normal
+                rate=disp_rate
             )
             p300.blow_out(dest.top())
         p300.drop_tip()
@@ -117,8 +112,8 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
 
             p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=touch_speed)
 
-        p300.aspirate(100, plate['A11'], rate=slow)
-        p300.dispense(150, waste.bottom(), rate=high)
+        p300.aspirate(100, plate['A11'], rate=asp_rate)
+        p300.dispense(150, waste.bottom(), rate=2)
         p300.drop_tip()
     """)
 
