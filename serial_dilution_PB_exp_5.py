@@ -8,7 +8,7 @@ metadata = {
     "author": "Wilson et al"
 }
 
-PARAMS = {'asp_rate': 2.0, 'disp_rate': 0.25, 'disp_height': 1.0, 'touch_speed': 80.0, 'mix_reps': 1, 'mix_fraction': 0.9}
+PARAMS = {'asp_rate': 2.0, 'disp_rate': 2.0, 'disp_height': 1.0, 'touch_speed': 10.0, 'mix_reps': 1, 'mix_fraction': 0.9}
 
 def run(protocol: protocol_api.ProtocolContext):
 

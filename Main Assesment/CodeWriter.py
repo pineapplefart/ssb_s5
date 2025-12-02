@@ -1,11 +1,11 @@
 import csv
 from textwrap import dedent
 
-DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_1.txt"
+DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_3.txt"
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     
-    params_literal = repr(params)  # convert dict -> valid Python literal
+    params_literal = repr(params)  
 
     return dedent(f"""
     from opentrons import protocol_api
