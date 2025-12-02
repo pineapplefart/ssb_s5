@@ -34,6 +34,7 @@ def run(protocol: protocol_api.ProtocolContext):
     touch_speed  = PARAMS["touch_speed"]
     mix_reps     = PARAMS["mix_reps"]
     mix_fraction = PARAMS["mix_fraction"]
+    start_col = int(PARAMS["start_col"])
 
     base_mix_volume = dilution_volume + pbs_volume  
     mix_volume = base_mix_volume * mix_fraction
@@ -42,9 +43,13 @@ def run(protocol: protocol_api.ProtocolContext):
     pbs_src         = reservoir['A6']
     waste           = reservoir['A12']
 
-    fluor_tip = f"A{start_col}"
-    pbs_tip   = f"A{start_col + 1}"
-    dilution_tip   = f"A{start_col + 2}"
+    fluor_tip_start = f"A{start_col}"
+    pbs_tip_start   = f"A{start_col + 1}"
+    dilution_tip_start   = f"A{start_col + 2}"
+
+    fluor_tip    = tiprack_1.wells_by_name()[fluor_tip_start]
+    pbs_tip      = tiprack_1.wells_by_name()[pbs_tip_start]
+    dilution_tip = tiprack_1.wells_by_name()[dilution_tip_start]
 
     p300.pick_up_tip(fluor_tip)
     p300.aspirate(
