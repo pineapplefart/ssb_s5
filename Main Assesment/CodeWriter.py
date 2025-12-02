@@ -5,7 +5,7 @@ DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_at
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     
-    params_literal = repr(params)  
+    params_literal = repr(params) 
 
     return dedent(f"""
     from opentrons import protocol_api
@@ -51,7 +51,11 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
         pbs_src         = reservoir['A6']
         waste           = reservoir['A12']
 
-        p300.pick_up_tip()
+        fluor_tip = f"A{{start_col}}"
+        pbs_tip   = f"A{{start_col + 1}}"
+        dilution_tip   = f"A{{start_col + 2}}"
+
+        p300.pick_up_tip(fluor_tip)
         p300.aspirate(
             fluorescein_volume,
             fluorescein_src.bottom(res_asp_height),
@@ -65,7 +69,7 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
         p300.blow_out(plate['A1'].top())
         p300.drop_tip()
 
-        p300.pick_up_tip()
+        p300.pick_up_tip(pbs_tip)
         for col in range(2, 13):
             dest = plate[f'A{{col}}']
             p300.aspirate(
@@ -81,7 +85,7 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
             p300.blow_out(dest.top())
         p300.drop_tip()
 
-        p300.pick_up_tip()
+        p300.pick_up_tip(dilution_tip)
         for col in range(1, 11):
             source = plate[f'A{{col}}']
             dest   = plate[f'A{{col + 1}}']
@@ -123,6 +127,8 @@ def main():
 
         for idx, row in enumerate(reader, start=1):
             experiment_id = str(idx)
+            block_index = (idx - 1) % 4
+            start_col = 1 + 3 * block_index
 
             params = {
                 "asp_rate":     float(row["Aspiration_Rate"]),
@@ -131,6 +137,7 @@ def main():
                 "touch_speed":  float(row["TT_Speed"]),
                 "mix_reps":     int(row["Mixes"]),
                 "mix_fraction": float(row["Mix_Fraction"]),
+                "start_col":    start_col,
             }
 
             code = make_protocol_code(params, experiment_id)

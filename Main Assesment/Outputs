@@ -1,0 +1,10 @@
+import csv
+from textwrap import dedent
+from pprint import pprint
+DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_3.txt"
+with open(DESIGN_CSV, newline='') as f:
+    reader = csv.DictReader(f)
+
+    for idx, row in enumerate(reader, start=1):
+        print(f"\n=== Experiment {idx} ===")
+        pprint(row)

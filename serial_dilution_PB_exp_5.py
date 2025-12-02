@@ -8,7 +8,7 @@ metadata = {
     "author": "Wilson et al"
 }
 
-PARAMS = {'asp_rate': 2.0, 'disp_rate': 2.0, 'disp_height': 1.0, 'touch_speed': 10.0, 'mix_reps': 1, 'mix_fraction': 0.9}
+PARAMS = {'asp_rate': 2.0, 'disp_rate': 2.0, 'disp_height': 1.0, 'touch_speed': 10.0, 'mix_reps': 1, 'mix_fraction': 0.9, 'start_col': 1}
 
 def run(protocol: protocol_api.ProtocolContext):
 
@@ -42,7 +42,11 @@ def run(protocol: protocol_api.ProtocolContext):
     pbs_src         = reservoir['A6']
     waste           = reservoir['A12']
 
-    p300.pick_up_tip()
+    fluor_tip = f"A{start_col}"
+    pbs_tip   = f"A{start_col + 1}"
+    dilution_tip   = f"A{start_col + 2}"
+
+    p300.pick_up_tip(fluor_tip)
     p300.aspirate(
         fluorescein_volume,
         fluorescein_src.bottom(res_asp_height),
@@ -56,7 +60,7 @@ def run(protocol: protocol_api.ProtocolContext):
     p300.blow_out(plate['A1'].top())
     p300.drop_tip()
 
-    p300.pick_up_tip()
+    p300.pick_up_tip(pbs_tip)
     for col in range(2, 13):
         dest = plate[f'A{col}']
         p300.aspirate(
@@ -72,7 +76,7 @@ def run(protocol: protocol_api.ProtocolContext):
         p300.blow_out(dest.top())
     p300.drop_tip()
 
-    p300.pick_up_tip()
+    p300.pick_up_tip(dilution_tip)
     for col in range(1, 11):
         source = plate[f'A{col}']
         dest   = plate[f'A{col + 1}']
