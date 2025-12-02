@@ -48,7 +48,7 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
         mix_volume = base_mix_volume * mix_fraction
 
         fluorescein_src = reservoir['A1']
-        pbs_src         = reservoir['A2']
+        pbs_src         = reservoir['A6']
         waste           = reservoir['A12']
 
         p300.pick_up_tip()

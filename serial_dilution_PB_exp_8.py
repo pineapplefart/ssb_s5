@@ -39,7 +39,7 @@ def run(protocol: protocol_api.ProtocolContext):
     mix_volume = base_mix_volume * mix_fraction
 
     fluorescein_src = reservoir['A1']
-    pbs_src         = reservoir['A2']
+    pbs_src         = reservoir['A6']
     waste           = reservoir['A12']
 
     p300.pick_up_tip()
