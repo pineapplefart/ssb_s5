@@ -5,12 +5,12 @@ from opentrons import protocol_api
 
 metadata = {
     "apiLevel": "2.15",
-    "protocolName": "Serial Dilutions (PB exp 5)",
-    "description": "Serial dilution with parameters from PB experiment 5",
+    "protocolName": "Serial Dilutions (PB exp 7)",
+    "description": "Serial dilution with parameters from PB experiment 7",
     "author": "Wilson et al"
 }
 
-PARAMS = {'Aspiration_Rate': 2.0, 'Aliquot_Aspiration_Rate': 2.0, 'Dilution_Aspiration_Rate': 2.0, 'Mix_Aspiration_Rate': 2.0, 'Aspiration_Height': 1.0, 'Aliquot_Aspiration_Height': 1.0, 'Dilution_Aspiration_Height': 1.0, 'Mix_Aspiration_Height': 1.0, 'Mix_Aspiration_Height_Min': 1.0, 'Mix_Aspiration_Height_Max': 1.0, 'Dispense_Rate': 2.0, 'Aliquot_Dispense_Rate': 2.0, 'Dilution_Dispense_Rate': 2.0, 'Mix_Dispense_Rate': 2.0, 'Final_Mix_Dispense_Rate': 2.0, 'Dispense_Height': 1.0, 'Aliquot_Dispense_Height': 1.0, 'Dilution_Dispense_Height': 1.0, 'Mix_Dispense_Height': 1.0, 'Mix_Dispense_Height_Min': 1.0, 'Mix_Dispense_Height_Max': 1.0, 'Mixing_Repetitions': 1, 'Mixing_Fraction': 0.9, 'Touch_Tip_Speed': 10, 'Touch_Tip_Radius': 0.8, 'Touch_Tip_V_Offset': -1.0, 'start_col': 1}
+PARAMS = {'Aspiration_Rate': 1.0, 'Aliquot_Aspiration_Rate': 1.0, 'Dilution_Aspiration_Rate': 1.0, 'Mix_Aspiration_Rate': 1.0, 'Aspiration_Height': 1.0, 'Aliquot_Aspiration_Height': 1.0, 'Dilution_Aspiration_Height': 1.0, 'Mix_Aspiration_Height': 1.0, 'Mix_Aspiration_Height_Min': 1.0, 'Mix_Aspiration_Height_Max': 1.0, 'Dispense_Rate': 1.0, 'Aliquot_Dispense_Rate': 1.0, 'Dilution_Dispense_Rate': 1.0, 'Mix_Dispense_Rate': 1.0, 'Final_Mix_Dispense_Rate': 1.0, 'Dispense_Height': 1.0, 'Aliquot_Dispense_Height': 1.0, 'Dilution_Dispense_Height': 1.0, 'Mix_Dispense_Height': 1.0, 'Mix_Dispense_Height_Min': 1.0, 'Mix_Dispense_Height_Max': 1.0, 'Mixing_Repetitions': -1, 'Mixing_Fraction': 0.0, 'Touch_Tip_Speed': 20, 'Touch_Tip_Radius': 0.8, 'Touch_Tip_V_Offset': -1.0, 'start_col': 7}
 
 def run(protocol: protocol_api.ProtocolContext):
 

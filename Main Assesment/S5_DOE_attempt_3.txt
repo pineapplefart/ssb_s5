@@ -1,4 +1,4 @@
-Pattern,Aspiration_Rate,Dispension_Rate,Dispension_Height,TT_Speed,Mixes,Mix_Fraction,Fit,Time
+Pattern,Aspiration_Rate,Dispense_Rate,Dispense_Height,Touch_Tip_Speed,Mixing_Repetitions,Mixing_Fraction,Fit,Time
 +−−−+−,2,0.25,1,10,5,0.1,,
 +−+++−,2,0.25,10,60,5,0.1,,
 −−−+−−,0.25,0.25,1,60,1,0.1,,

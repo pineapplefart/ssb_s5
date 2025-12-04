@@ -35,7 +35,7 @@ Default_Params = {"Aspiration_Rate": 1.0,
 import csv
 from textwrap import dedent
 
-DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_3.txt"
+DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/Box-Behnken.txt"
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     
@@ -280,7 +280,7 @@ def main():
                 params["Mix_Dispense_Height_Max"] = params["Mix_Dispense_Height"]
         
             code = make_protocol_code(params, experiment_id)
-            filename = f"serial_dilution_PB_exp_{experiment_id}.py"
+            filename = f"serial_dilution_BB_exp_{experiment_id}.py"
             with open(filename, "w") as out:
                 out.write(code)
             print(f"Wrote {filename}")
