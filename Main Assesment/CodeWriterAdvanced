@@ -35,7 +35,7 @@ Default_Params = {"Aspiration_Rate": 1.0,
 import csv
 from textwrap import dedent
 
-DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/Box-Behnken.txt"
+DESIGN_CSV = "/Users/wilsonporteus/Documents/GitHub/ssb_s5/Main Assesment/BB Test 1 On Jah.txt"
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     

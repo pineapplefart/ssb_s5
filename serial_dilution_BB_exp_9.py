@@ -1,6 +1,4 @@
 
-
-import random
 from opentrons import protocol_api
 
 metadata = {
@@ -10,7 +8,7 @@ metadata = {
     "author": "Wilson et al"
 }
 
-PARAMS = {'Aspiration_Rate': 1.0, 'Aliquot_Aspiration_Rate': 1.0, 'Dilution_Aspiration_Rate': 1.0, 'Mix_Aspiration_Rate': 1.0, 'Aspiration_Height': 1.0, 'Aliquot_Aspiration_Height': 1.0, 'Dilution_Aspiration_Height': 1.0, 'Mix_Aspiration_Height': 1.0, 'Mix_Aspiration_Height_Min': 1.0, 'Mix_Aspiration_Height_Max': 1.0, 'Dispense_Rate': 0.0, 'Aliquot_Dispense_Rate': 0.0, 'Dilution_Dispense_Rate': 0.0, 'Mix_Dispense_Rate': 0.0, 'Final_Mix_Dispense_Rate': 0.0, 'Dispense_Height': 1.0, 'Aliquot_Dispense_Height': 1.0, 'Dilution_Dispense_Height': 1.0, 'Mix_Dispense_Height': 1.0, 'Mix_Dispense_Height_Min': 1.0, 'Mix_Dispense_Height_Max': 1.0, 'Mixing_Repetitions': -1, 'Mixing_Fraction': -1.0, 'Touch_Tip_Speed': 20, 'Touch_Tip_Radius': 0.8, 'Touch_Tip_V_Offset': -1.0, 'start_col': 1}
+PARAMS = {'asp_rate': 2.0, 'disp_rate': 1.125, 'disp_height': 1.0, 'mix_reps': 1, 'mix_fraction': 0.1, 'start_col': 1}
 
 def run(protocol: protocol_api.ProtocolContext):
 
@@ -27,33 +25,15 @@ def run(protocol: protocol_api.ProtocolContext):
     pbs_volume         = 100
     dilution_volume    = 100
 
-    aliquot_asp_rate   = PARAMS["Aliquot_Aspiration_Rate"]
-    dilution_asp_rate  = PARAMS["Dilution_Aspiration_Rate"]
-    mix_asp_rate       = PARAMS["Mix_Aspiration_Rate"]
+    res_asp_height    = 1.5
+    plate_asp_height  = 1.0
+    plate_disp_height = PARAMS["disp_height"]
 
-    aliquot_asp_height  = PARAMS["Aliquot_Aspiration_Height"]
-    dilution_asp_height = PARAMS["Dilution_Aspiration_Height"]
-    mix_asp_height_min  = PARAMS["Mix_Aspiration_Height_Min"]
-    mix_asp_height_max  = PARAMS["Mix_Aspiration_Height_Max"]
+    asp_rate     = PARAMS["asp_rate"]
+    disp_rate    = PARAMS["disp_rate"]
 
-    aliquot_disp_rate   = PARAMS["Aliquot_Dispense_Rate"]
-    dilution_disp_rate  = PARAMS["Dilution_Dispense_Rate"]
-    mix_disp_rate       = PARAMS["Mix_Dispense_Rate"]
-    final_mix_disp_rate = PARAMS["Final_Mix_Dispense_Rate"]
-
-    aliquot_disp_height  = PARAMS["Aliquot_Dispense_Height"]
-    dilution_disp_height = PARAMS["Dilution_Dispense_Height"]
-    mix_disp_height      = PARAMS["Mix_Dispense_Height"]
-    mix_disp_height_min  = PARAMS["Mix_Dispense_Height_Min"]
-    mix_disp_height_max  = PARAMS["Mix_Dispense_Height_Max"]
-
-    mix_reps     = PARAMS["Mixing_Repetitions"]
-    mix_fraction = PARAMS["Mixing_Fraction"]
-
-    touch_speed   = PARAMS["Touch_Tip_Speed"]
-    touch_radius  = PARAMS["Touch_Tip_Radius"]
-    touch_voffset = PARAMS["Touch_Tip_V_Offset"]
-
+    mix_reps     = PARAMS["mix_reps"]
+    mix_fraction = PARAMS["mix_fraction"]
     start_col = int(PARAMS["start_col"])
 
     base_mix_volume = dilution_volume + pbs_volume  
@@ -74,13 +54,13 @@ def run(protocol: protocol_api.ProtocolContext):
     p300.pick_up_tip(fluor_tip)
     p300.aspirate(
         fluorescein_volume,
-        fluorescein_src.bottom(aliquot_asp_height),
-        rate=aliquot_asp_rate
+        fluorescein_src.bottom(res_asp_height),
+        rate=asp_rate
     )
     p300.dispense(
         fluorescein_volume,
-        plate['A1'].bottom(aliquot_disp_height),
-        rate=aliquot_disp_rate
+        plate['A1'].bottom(plate_disp_height),
+        rate=disp_rate
     )
     p300.blow_out(plate['A1'].top())
     p300.drop_tip()
@@ -90,13 +70,13 @@ def run(protocol: protocol_api.ProtocolContext):
         dest = plate[f'A{col}']
         p300.aspirate(
             pbs_volume,
-            pbs_src.bottom(aliquot_asp_height),
-            rate=aliquot_asp_rate
+            pbs_src.bottom(res_asp_height),
+            rate=asp_rate
         )
         p300.dispense(
             pbs_volume,
-            dest.bottom(aliquot_disp_height),
-            rate=aliquot_disp_rate
+            dest.bottom(plate_disp_height),
+            rate=disp_rate
         )
         p300.blow_out(dest.top())
     p300.drop_tip()
@@ -108,42 +88,29 @@ def run(protocol: protocol_api.ProtocolContext):
 
         p300.aspirate(
             dilution_volume,
-            source.bottom(dilution_asp_height),
-            rate=dilution_asp_rate
+            source.bottom(plate_asp_height),
+            rate=asp_rate
         )
 
         p300.dispense(
             dilution_volume,
-            dest.bottom(dilution_disp_height),
-            rate=dilution_disp_rate
+            dest.bottom(plate_disp_height),
+            rate=disp_rate
         )
 
         for i in range(mix_reps):
-
-            mix_height = random.uniform(
-            mix_asp_height_min,
-            mix_asp_height_max
-            )
-
             p300.aspirate(
                 mix_volume,
-                dest.bottom(mix_height),
-                rate=mix_asp_rate
+                dest.bottom(plate_asp_height),
+                rate=asp_rate
             )
-
-            mix_height = random.uniform(
-            mix_disp_height_min,
-            mix_disp_height_max
-            )
-
             p300.dispense(
                 mix_volume,
-                dest.bottom(mix_height),
-                rate=mix_disp_rate
+                dest.bottom(plate_disp_height),
+                rate=disp_rate
             )
 
-        p300.touch_tip(dest, radius=touch_radius, v_offset=touch_voffset, speed=touch_speed)
 
-    p300.aspirate(100, plate['A11'], rate=dilution_asp_rate)
+    p300.aspirate(100, plate['A11'], rate=asp_rate)
     p300.dispense(150, waste.bottom(), rate=2)
     p300.drop_tip()

@@ -40,7 +40,7 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
 
         asp_rate     = PARAMS["asp_rate"]
         disp_rate    = PARAMS["disp_rate"]
-        touch_speed  = PARAMS["touch_speed"]
+        
         mix_reps     = PARAMS["mix_reps"]
         mix_fraction = PARAMS["mix_fraction"]
         start_col = int(PARAMS["start_col"])
@@ -119,8 +119,7 @@ def make_protocol_code(params: dict, experiment_id: str) -> str:
                     rate=disp_rate
                 )
 
-            p300.touch_tip(dest, radius=0.7, v_offset=-1, speed=touch_speed)
-
+            
         p300.aspirate(100, plate['A11'], rate=asp_rate)
         p300.dispense(150, waste.bottom(), rate=2)
         p300.drop_tip()
@@ -136,17 +135,16 @@ def main():
             start_col = 1 + 3 * block_index
 
             params = {
-                "asp_rate":     float(row["Aspiration_Rate"]),
-                "disp_rate":    float(row["Dispension_Rate"]),
-                "disp_height":  float(row["Dispension_Height"]),
-                "touch_speed":  float(row["TT_Speed"]),
-                "mix_reps":     int(row["Mixes"]),
-                "mix_fraction": float(row["Mix_Fraction"]),
+                "asp_rate":     float(2),
+                "disp_rate":    float(row["disp_rate"]),
+                "disp_height":  float(1),
+                "mix_reps":     int(row["mix_reps"]),
+                "mix_fraction": float(row["mix_fraction"]),
                 "start_col":    start_col,
             }
 
             code = make_protocol_code(params, experiment_id)
-            filename = f"serial_dilution_PB_exp_{experiment_id}.py"
+            filename = f"serial_dilution_BB_exp_{experiment_id}.py"
             with open(filename, "w") as out:
                 out.write(code)
             print(f"Wrote {filename}")
