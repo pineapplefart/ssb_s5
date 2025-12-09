@@ -1,7 +1,7 @@
 import csv
 from textwrap import dedent
 
-DESIGN_CSV = "/Users/wilsonporteus/Documents/GitHub/ssb_s5/Main Assesment/BB Table Final.txt"
+DESIGN_CSV = "/Users/mattgroves/Documents/GitHub/ssb_s5/Main Assesment/S5_DOE_attempt_3.txt"
 
 def make_protocol_code(params: dict, experiment_id: str) -> str:
     
