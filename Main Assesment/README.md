@@ -21,14 +21,18 @@
 
 ## Overview
 
-This repository provides a complete, automated pipeline for optimising pipetting parameters on the Opentrons OT-2. Using a JMP-designed experiment, the system:
+This repository provides an automated system for optimising pipetting parameters on the Opentrons OT-2. Using a JMP-designed experiment, the system:
 
 - Generates parameterised Opentrons protocols (Code A → Code B)
 - Executes experiments on the robot
 - Processes assay data (Code C)
 - Identifies optimal settings using statistical modelling in JMP
 
-Serial dilution is used as the demonstration case, but the pipeline is designed to be experiment-agnostic. By modifying only the protocol template inside the generator, users can adapt the system to optimise any liquid-handling workflow, including reagent mixing, plate normalisation, or multi-step assays. The framework supports flexible parameter definition, scalable protocol generation, and quantitative performance evaluation (e.g., gradient, R², execution time). Optimised parameters can then be transferred to more complex or sensitive workflows, allowing users to calibrate pipetting behaviour using a simple model assay before applying it to their actual experiment.
+JMP experiments can be designed from a long list of avaliable experiment parameters. Using only the JMP design-of-experiment output table, this repository automates production of unique serial dilution protocols with each of the parameter sets specified by JMP. The fitness of the resultant fluorescence data is automatically processed by the Data Analysis Code C to give fitness data which can be reinput into the JMP table for analysis. 
+
+We envision this platform being highly applicable to protocol optimisation. Some fluids have challenging properties, such as extreme viscosity or density, low surface tension, a tendency to foam, or those containing particulates, cells or precipitates. These properties can reduce the accuracy of automated protocols. By performing serial dilution optimisation using these fluids, optimal paramters for pipetting and mixing can be found which will alleviate these problems. 
+
+The experiment execution code can also be altered to perform other pipetting workflows. By assigning our specific parameter names to the variables in a different experiment execution code, pipetting parameters can be optimised for other liquid-handling protocols which include pipetting and mixing steps. Optimised parameters can then be transferred to more complex or sensitive workflows, allowing users to calibrate pipetting parameters using a simple model assay before applying it to their actual experiment.
 
 ## Optimisation workflow
 
@@ -36,7 +40,7 @@ Serial dilution is used as the demonstration case, but the pipeline is designed 
 
 JMP is used only to design the parameter combinations to test:
 
-- Define the parameters you want to vary (e.g. aspiration rate, dispense height, mixing reps)
+- Define the parameters you want to vary from 'Default_Params' (e.g. aspiration rate, dispense height, mixing reps)
 - Build a DOE (e.g. factorial, screening, response surface)
 - Export as `.csv` or `.txt` for the generator script
 
@@ -55,13 +59,19 @@ It automatically:
 - Embeds parameters into a protocol template  
 - Generates one Opentrons execution script (Code B) per experiment, which are ready to run on the OT-2
 
+To load a JMP design add the pathway of the CSV file to the generator Code A: DESIGN_CSV = "<Insert Pathway Here>"
+
 ### 3. Experiment Execution (Code B)
+
+This code is provided by the generator code A and is instantly ruannble on the OT-2 system.
 
 - Runs directly on the OT-2
 - Loads specified labware and instruments
 - Performs the parameterised pipetting workflow (aliquoting, dilution, mixing, etc.)
 - Executes steps exactly as defined by Code A
 - Produces assay-ready plates for analysis
+
+If specific labware and instruments are required, these can be changed in the generator code A to ensure they are maintained in all Code B outputs.
 
 ### 4. Data Analysis (Code C)
 
