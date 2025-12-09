@@ -62,8 +62,6 @@ BEGIN
       The returned protocol code is written as a new file:
         "serial_dilution_BB_exp_<experiment_id>.py"
 
-  END FOR
-
 END
 ```
 
