@@ -8,8 +8,6 @@ This document describes the high-level logic of the three main components in thi
 
 The goal is to explain *what each part does* in clear, stepwise form.
 
----
-
 ## Code A – Generator Script 
 
 **Purpose:**  
@@ -57,7 +55,7 @@ BEGIN
 
 END
 
----
+```
 
 ## Code B – Execution Script
 
@@ -118,7 +116,7 @@ BEGIN run(protocol):
 
 END
 
----
+```
 
 ## Code C – Analysis Script 
 
@@ -200,3 +198,5 @@ BEGIN
   PRINT global_cv  # one average CV value per experiment
 
 END
+
+```
