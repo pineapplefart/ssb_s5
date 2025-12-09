@@ -55,7 +55,7 @@ BEGIN
         Unassigned global parameters are set to defaults.
         Unassigned step-specific parameters are set to their global parameters.
         Unassigned minimum and maximum mix height range parameters are set to the constant mix height parameters.
-        Unassigned final mix rate are set to the mix rate parameter.
+        Unassigned final mix rate is set to the mix rate parameter.
       
       The final parameters dictionary and experiment_id are passed as arguments to the make_protocol_code function.
       
