@@ -59,7 +59,7 @@ It automatically:
 - Embeds parameters into a protocol template  
 - Generates one Opentrons execution script (Code B) per experiment, which are ready to run on the OT-2
 
-To load a JMP design add the pathway of the CSV file to the generator Code A: DESIGN_CSV = "<Insert Pathway Here>"
+To load a JMP design add the pathway of the CSV file to the generator Code A: DESIGN_CSV = "Insert Pathway Here"
 
 ### 3. Experiment Execution (Code B)
 
