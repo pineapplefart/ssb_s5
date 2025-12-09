@@ -23,44 +23,47 @@ Read a JMP design-of-experiment file and generate an Opentrons code which carrie
 
 ```text
 BEGIN
+  
+-Set a list of potential parameters to default values. Global parameters are broken down into parameters specific to each serial dilution step. Global parameters are given a default value.
 
-  Set a list of potential parameters to default values. 
-  Global parameters are broken down into parameters specific 
-  to each serial-dilution step. Global parameters are given 
-  a default value.
+-LOAD the JMP table as DESIGN_CSV. 
 
-  LOAD the JMP table as DESIGN_CSV.
+-Define a code-maker function which takes two arguments: a dictionary of parameters; and an experiment number:
+    
+    Convert the parameters to a string.
+    
+    Return an f string which contains the parameters dictionary and a template serial dilution code (explained as Code B), with the experiment number saved in the file name.
 
-  DEFINE make_protocol_code(params, experiment_id):
-    Convert params dictionary to a string representation.
-    RETURN an f-string containing:
-      – the parameter dictionary,
-      – the experiment ID,
-      – and the template serial-dilution code (Code B).
+-Define a code-writer function which produces opentron files:
+    
+    Use the dictionary reader function to save a parameter dictionary for each row of the table.
+    
+    FOR each row in the table WITH index idx:
+      SET the experiment_id as idx
+      
+      CALCULATE start_col from idx to ensure the opentron file starts loading tips from the correct position in the tip rack.
+      
+      CREATE a parameters dictionary as a copy of the default parameters.
+      
+      FOR each parameter name in the parameters dictionary:
+        IF the design file contains parameter k AND the corresponding row is not empty THEN
+          CONVERT default value to the JMP value and store value in parameters dictionary.
+      
+      ADD the tip start column to the end of the parameters dictionary.
+      
+      APPLY inheritance rules: 
+        Unassigned global parameters are set to defaults.
+        Unassigned step-specific parameters are set to their global parameters.
+        Unassigned minimum and maximum mix height range parameters are set to the constant mix height parameters.
+        Unassigned final mix rate are set to the mix rate parameter.
+      
+      The final parameters dictionary and experiment_id are passed as arguments to the make_protocol_code function.
+      
+      The returned protocol code is written as a new file:
+        "serial_dilution_BB_exp_<experiment_id>.py"
 
-  DEFINE main code-writer function:
+  END FOR
 
-    LOAD the CSV using DictReader.
-
-    FOR each row WITH index idx:
-      SET experiment_id = idx
-      COMPUTE start_col based on idx
-      CREATE params as a copy of the default parameters
-      FOR each key in params:
-        IF key is a column in the CSV AND its cell is not empty:
-          Convert cell to correct type and store in params
-      ADD start_col to params
-      APPLY inheritance rules:
-        – Any step-specific aspiration rates = global rate if None
-        – Any step-specific aspiration heights = global height if None
-        – Mix height min/max = mix height if None
-        – Step-specific dispense rates = global dispense rate if None
-        – Final mix dispense rate = mix dispense rate if None
-        – Step-specific dispense heights = global height if None
-      GENERATE protocol code using make_protocol_code(params, experiment_id)
-      WRITE the returned code to file: "serial_dilution_BB_exp_<experiment_id>.py"
-
-    END FOR
 END
 ```
 
