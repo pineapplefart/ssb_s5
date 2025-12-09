@@ -97,27 +97,21 @@ This optimisation pipeline is not limited to serial dilution. With small changes
 ### What You Can Change
 
 - **`Default_Params`**  
-  Add, remove, or adjust parameters to control different aspects of pipetting.  
-  For example, you can tune:
-  - global defaults: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height`
-  - step-specific behaviour: `Aliquot_Aspiration_Rate`, `Dilution_Dispense_Rate`, `Mix_Aspiration_Height`, etc.
-  - mixing: `Mixing_Repetitions`, `Mixing_Fraction`
-  - touch-tip: `Touch_Tip_Speed`, `Touch_Tip_Radius`, `Touch_Tip_V_Offset`
-
-  Any parameter you add here can be included as a column in the JMP design file and will override the default value for that experiment.
+  These are the available paramaters which can be optimised in JMP.
+  
+  You can tune:
+  - global parameters: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height` set the defualt values of parameters not specified by JMP.
+  - step-specific behaviour: `Aliquot_Aspiration_Rate`, `Dilution_Dispense_Rate`, `Mix_Aspiration_Height`.
+  - mixing parameters: `Mixing_Repetitions`, `Mixing_Fraction`.
+  - touch-tip parameters: `Touch_Tip_Speed`, `Touch_Tip_Radius`, `Touch_Tip_V_Offset` control the touch tip function that removes excess liwuid from the pipette tip following mixing.
 
 - **Protocol logic in `make_protocol_code()`**  
-  This is the experiment-specific part.  
-  To optimise a different workflow (e.g. mixing, plate normalisation, reactions), replace the serial dilution steps with your own protocol while still reading values from `PARAMS["..."]`.
+  
+  The current function includes a template code which is specific to serial dilution.
 
-- **Analysis script (Code C)**  
-  Only needed if your experiment produces different outputs (e.g. endpoint fluorescence, OD, reaction rate) or you want to calculate different metrics.
-
-### Adapting to a New Experiment
-
-To use this framework for a different Opentrons protocol:
+  To use this framework for a different Opentrons protocol:
 
 1. Edit the pipetting steps inside `make_protocol_code()` to implement your new workflow.  
 2. Update `Default_Params` with any new parameters you want to optimise.  
 3. Create a JMP design where the column names match the keys in `Default_Params`.  
-4. Update Code C (if required) to calculate new performance metrics.
+

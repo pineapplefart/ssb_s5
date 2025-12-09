@@ -32,7 +32,7 @@ BEGIN
     
     Convert the parameters to a string.
     
-    Return an f string which contains the parameters dictionary and a template serial dilution code (explained as Code B), with the experiment number saved in the file name.
+    Return an f string which contains the parameters dictionary and a template serial dilution code (explained as Code B - execution script), with the experiment number saved in the file name.
 
 -Define a code-writer function which produces opentron files:
     
