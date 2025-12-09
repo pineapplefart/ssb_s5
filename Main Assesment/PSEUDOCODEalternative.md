@@ -26,7 +26,7 @@ BEGIN
   
 -Set a list of potential parameters to default values. Global parameters are broken down into parameters specific to each serial dilution step. Global parameters are given a default value.
 
--LOAD the JMP table as DESIGN_CSV. 
+-Load the JMP table as DESIGN_CSV. 
 
 -Define a code-maker function which takes two arguments: a dictionary of parameters; and an experiment number:
     
@@ -38,20 +38,20 @@ BEGIN
     
     Use the dictionary reader function to save a parameter dictionary for each row of the table.
     
-    FOR each row in the table WITH index idx:
-      SET the experiment_id as idx
+    For each row in the table with index 'idx':
+      Set the experiment_id as idx
       
-      CALCULATE start_col from idx to ensure the opentron file starts loading tips from the correct position in the tip rack.
+      Calculate start_col from idx to ensure the opentron file starts loading tips from the correct position in the tip rack.
       
-      CREATE a parameters dictionary as a copy of the default parameters.
+      Create a parameters dictionary as a copy of the default parameters.
       
-      FOR each parameter name in the parameters dictionary:
-        IF the design file contains parameter k AND the corresponding row is not empty THEN
-          CONVERT default value to the JMP value and store value in parameters dictionary.
+      For each parameter name in the parameters dictionary:
+        If the design file contains parameter k AND the corresponding row is not empty then:
+          Convert default value to the JMP value and store value in parameters dictionary.
       
-      ADD the tip start column to the end of the parameters dictionary.
+      Add the tip start column to the end of the parameters dictionary.
       
-      APPLY inheritance rules: 
+      Apply inheritance rules: 
         Unassigned global parameters are set to defaults.
         Unassigned step-specific parameters are set to their global parameters.
         Unassigned minimum and maximum mix height range parameters are set to the constant mix height parameters.
