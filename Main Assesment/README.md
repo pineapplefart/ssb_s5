@@ -95,14 +95,12 @@ This optimisation pipeline is not limited to serial dilution. With small changes
 ### What You Can Change
 
 - **`Default_Params`**  
-  Add, remove, or adjust parameters to control different aspects of pipetting.  
-  For example, you can tune:
-  - global defaults: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height`
-  - step-specific behaviour: `Aliquot_Aspiration_Rate`, `Dilution_Dispense_Rate`, `Mix_Aspiration_Height`, etc.
-  - mixing: `Mixing_Repetitions`, `Mixing_Fraction`
-  - touch-tip: `Touch_Tip_Speed`, `Touch_Tip_Radius`, `Touch_Tip_V_Offset`
-
-  Any parameter you add here can be included as a column in the JMP design file and will override the default value for that experiment.
+  These are the available parameters for JMP optimisation.  
+  You can tune:
+  - global parameters: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height` which set default values for parameters not specified by JMP. 
+  - step-specific behaviours: `Aliquot_Aspiration_Rate`, `Dilution_Dispense_Rate`, `Mix_Aspiration_Height`.
+  - mixing parameters: `Mixing_Repetitions`, `Mixing_Fraction`.
+  - touch-tip parameters: `Touch_Tip_Speed`, `Touch_Tip_Radius`, `Touch_Tip_V_Offset` which alter the touch-tip step which removes droplets from tips following mixing.
 
 - **Protocol logic in `make_protocol_code()`**  
   This is the experiment-specific part.  
