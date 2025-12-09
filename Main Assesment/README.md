@@ -1,14 +1,10 @@
 # Optimising Serial Dilution Protocol Parameters for Opentrons OT-2
 ### A Generalised Pipeline for Automated Experiment Optimisation Using Opentrons + JMP
 
----
-
 ## Authors
 - Matthew Groves
 - Wilson Porteus
 - Haotong Xiong
-
----
 
 ## Table of contents 
 
@@ -28,8 +24,6 @@
 - [Repository Structure](#repository-structure)
 - [Conclusion](#conclusion)
 
----
-
 ## Overview
 
 This repository provides a complete, automated pipeline for optimising pipetting parameters on the Opentrons OT-2. Using a JMP-designed experiment, the system:
@@ -40,8 +34,6 @@ This repository provides a complete, automated pipeline for optimising pipetting
 - Identifies optimal settings using statistical modelling in JMP
 
 Serial dilution is used as the demonstration case, but the pipeline is designed to be experiment-agnostic. By modifying only the protocol template inside the generator, users can adapt the system to optimise any liquid-handling workflow, including reagent mixing, plate normalisation, or multi-step assays. The framework supports flexible parameter definition, scalable protocol generation, and quantitative performance evaluation (e.g., gradient, R², execution time). Optimised parameters can then be transferred to more complex or sensitive workflows, allowing users to calibrate pipetting behaviour using a simple model assay before applying it to their actual experiment.
-
----
 
 ## Optimisation workflow
 
@@ -90,8 +82,6 @@ In JMP, users can:
 - Explore prediction profiles
 - Use desirability functions to identify optimal parameter settings  
 - Select final conditions for validation on the OT-2  
-
----
 
 ## Adapting and Customising the Framework
 
