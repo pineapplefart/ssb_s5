@@ -15,14 +15,9 @@
   - [3. Experiment Execution (Code B)](#3-experiment-execution-code-b)
   - [4. Data Analysis (Code C)](#4-data-analysis-code-c)
   - [5. Optimisation in JMP](#5-optimisation-in-jmp)
-- [Code Structure](#code-structure)
+- [Adapting and Customising the Framework](#adapting-and-customising-the-framework)
   - [What You Can Change](#what-you-can-change)
-  - [What You Should NOT Change](#what-you-should-not-change)
-  - [How to Add New Parameters](#how-to-add-new-parameters)
-  - [How to Adapt This to a Different Experiment](#how-to-adapt-this-to-a-different-experiment)
-- [Using JMP With This Framework](#using-jmp-with-this-framework)
-- [Repository Structure](#repository-structure)
-- [Conclusion](#conclusion)
+  - [Adapting to a New Experiment](#adapting-to-a-new-experiment)
 
 ## Overview
 
