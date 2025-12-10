@@ -94,7 +94,7 @@ Code A was designed such that each output code B starts taking pipette tips from
 - OR calculates the CV across all data per experiment 
 - Outputs results as a CSV
 
-- **NOTE: YOU MUST COLLECT THE RUNTIME DATA MANUALLY. THE OT-2 DOES NOT SUPPORT OUTPUTTING THE RUNTIME DATA**
+**NOTE: YOU MUST COLLECT THE RUNTIME DATA MANUALLY. THE OT-2 DOES NOT SUPPORT OUTPUTTING THE RUNTIME DATA**
 
 ### 5. Optimisation in JMP
 
