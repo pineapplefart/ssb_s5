@@ -92,7 +92,7 @@ Code A was designed such that each output code B starts taking pipette tips from
 - Fits dilution curves and calculates gradient and R² as fitness metrics 
 - Outputs results as a CSV
 
-To use this code, first ensue that well A1 is at cell b15 in your excel file. Then add the excel file pathway to the code in the relevant position (indicated in the code).
+To use this code, first ensure that well A1 is at cell b15 in your excel file. Then add the excel file pathway to the code in the relevant position (indicated in the code).
 
 - **NOTE: YOU MUST COLLECT THE RUNTIME DATA MANUALLY. THE OT-2 DOES NOT SUPPORT OUTPUTTING THE RUNTIME DATA**
 
