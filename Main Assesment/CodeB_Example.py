@@ -119,7 +119,7 @@ def run(protocol: protocol_api.ProtocolContext):
             dilution_volume,
             dest.bottom(dilution_disp_height),
             rate=dilution_disp_rate
-        ) # Dispense into the next column according to dispense parameters.
+        ) # Dispense into the next column according to dilution dispense parameters.
 
         for i in range(mix_reps): # For a specified number of mixing repetitions:
 
@@ -132,7 +132,7 @@ def run(protocol: protocol_api.ProtocolContext):
                 mix_volume,
                 dest.bottom(mix_height),
                 rate=mix_asp_rate
-            ) # Aspirates at that height according to parameters
+            ) # Aspirates at that height according to mixing parameters
 
             mix_height = random.uniform(
             mix_disp_height_min,
@@ -143,9 +143,9 @@ def run(protocol: protocol_api.ProtocolContext):
                 mix_volume,
                 dest.bottom(mix_height),
                 rate=mix_disp_rate
-            ) # Dispenses at that height according to parameters
+            ) # Dispenses at that height according to mixing parameters
 
-        p300.touch_tip(dest, radius=touch_radius, v_offset=touch_voffset, speed=touch_speed) # Touches tips using specified speed, radius, offset
+        p300.touch_tip(dest, radius=touch_radius, v_offset=touch_voffset, speed=touch_speed) # Touches tips using specified speed, radius and offset parameters
 
     p300.aspirate(100, plate['A11'], rate=dilution_asp_rate) # aspirates dilution volume from second-to-last column
     p300.dispense(150, waste.bottom(), rate=2) # Dispenses into waste
