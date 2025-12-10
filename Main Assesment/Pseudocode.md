@@ -1,17 +1,15 @@
 # Pseudocode – Serial Dilution Optimisation Pipeline
 
-This document describes the high-level logic of the three main components in this project:
+This document describes the logic of the three main scripts in this project:
 
 - **Code A** – generator script  
-- **Code B** – execution script (Opentrons protocol)  
+- **Code B** – execution scripts (Opentrons protocols)  
 - **Code C** – analysis script  
-
-The goal is to explain *what each part does* in clear, stepwise form.
 
 ## Code A – Generator Script 
 
 **Purpose:**  
-Read a JMP design file, combine it with default pipetting parameters, and generate one Opentrons protocol file per experiment.
+Read a JMP design-of-experiment file and generate an Opentrons code which carries out serial dilution for each set of parameters.
 
 **Inputs:**
 - `DESIGN_CSV`
@@ -25,36 +23,46 @@ Read a JMP design file, combine it with default pipetting parameters, and genera
 
 ```text
 BEGIN
+  
+-Set a list of potential parameters to default values. Global parameters are broken down into parameters specific to each serial dilution step. Global parameters are given a default value.
 
-  LOAD DESIGN_CSV as a table of rows (one per experiment)
+-Load the JMP table as DESIGN_CSV. 
 
-  FOR each row in table WITH index idx:
+-Define a code-maker function which takes two arguments: a dictionary of parameters; and an experiment number:
+    
+    Convert the parameters to a string.
+    
+    Return an f string which contains the parameters dictionary and a template serial dilution code (explained as Code B - execution script), with the experiment number saved in the file name.
 
-      SET experiment_id = idx
-      CALCULATE start_col from idx to assign tip positions
-
-      CREATE params = copy(Default_Params)
-
-      FOR each parameter name k in params:
-          IF design file contains column k AND cell is non-empty THEN
-              CONVERT and store value in params[k]
-
-      ADD params["start_col"] = start_col
-
-      APPLY inheritance rules:
-          Fill in None aspiration/dispense values using global defaults
-          Fill in None mix height min/max using base values
-          Fill in None final mix rate using mix rate
-
-      GENERATE protocol text = make_protocol_code(params, experiment_id)
-
-      WRITE protocol text to file:
-          "serial_dilution_BB_exp_<experiment_id>.py"
-
-  END FOR
+-Define a code-writer function which produces opentron files:
+    
+    Use the dictionary reader function to save a parameter dictionary for each row of the table.
+    
+    For each row in the table with index 'idx':
+      Set the experiment_id as idx
+      
+      Calculate start_col from idx to ensure the opentron file starts loading tips from the correct position in the tip rack.
+      
+      Create a parameters dictionary as a copy of the default parameters.
+      
+      For each parameter name in the parameters dictionary:
+        If the design file contains parameter k AND the corresponding row is not empty then:
+          Convert default value to the JMP value and store value in parameters dictionary.
+      
+      Add the tip start column to the end of the parameters dictionary.
+      
+      Apply inheritance rules: 
+        Unassigned global parameters are set to defaults.
+        Unassigned step-specific parameters are set to their global parameters.
+        Unassigned minimum and maximum mix height range parameters are set to the constant mix height parameters.
+        Unassigned final mix rate is set to the mix rate parameter.
+      
+      The final parameters dictionary and experiment_id are passed as arguments to the make_protocol_code function.
+      
+      The returned protocol code is written as a new file:
+        "serial_dilution_BB_exp_<experiment_id>.py"
 
 END
-
 ```
 
 ## Code B – Execution Script
@@ -85,18 +93,18 @@ BEGIN run(protocol):
   ASSIGN reservoir wells: fluorescein_src, pbs_src, waste
   SELECT tips based on start_col
 
-  PICK UP fluor_tip
+  PICK UP fluorescein aliquotting tip
   ASPIRATE fluorescein from reservoir using aliquot settings
   DISPENSE into plate column 1
-  DROP TIP
+  DROP TIPS
 
-  PICK UP pbs_tip
+  PICK UP pbs aliquotting tip
   FOR each column from 2 to 12:
       ASPIRATE PBS using aliquot settings
       DISPENSE into destination column
-  DROP TIP
+  DROP TIPS
 
-  PICK UP dilution_tip
+  PICK UP dilution and mixing tip
   FOR col = 1 to 10:
       ASPIRATE dilution volume from plate[col]
       DISPENSE into plate[col+1]
@@ -108,11 +116,11 @@ BEGIN run(protocol):
           CHOOSE random dispense height between Mix_Dispense_Min and Max
           DISPENSE mix_volume at that height
 
-      TOUCH TIP using specified speed, radius, offset
+      TOUCH TIPS using specified speed, radius, offset
 
-  ASPIRATE small volume from second-to-last column
+  ASPIRATE dilution volume from second-to-last column
   DISPENSE into waste
-  DROP TIP
+  DROP TIPS
 
 END
 
@@ -126,7 +134,6 @@ Process plate-reader data to quantify dilution performance and prepare results f
 **Inputs:**
 
 Raw fluorescence/absorbance files per experiment
-Name fluorescence data in a regular file name so the script can read them in an iterative manner, ie bb1.xslx or pb12a.xlsx
 
 **Outputs:**
 
@@ -201,5 +208,6 @@ BEGIN
   PRINT global_cv  # one average CV value per experiment
 
 END
+
 
 ```
