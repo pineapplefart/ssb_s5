@@ -28,9 +28,9 @@ This repository provides an automated system for optimising pipetting parameters
 - Processes assay data (Code C)
 - Identifies optimal settings using statistical modelling in JMP
 
-JMP experiments can be designed from a long list of avaliable experiment parameters. Using only the JMP design-of-experiment output table, this repository automates production of unique serial dilution protocols with each of the parameter sets specified by JMP. Serial dilutions are then performed to dilute Fluorescein using a dilution medium such as PBS. The accuracy of each dilution can be evaluated by comparing measured fluorescence across the dilution to an expected dilution curve. This comparison is automatically processed by the Data Analysis Code C to give fitness data which can be reinput into the JMP table for analysis. 
+JMP experiments can be designed from a long list of available experiment parameters. Using only the JMP design-of-experiment output table, this repository automates the production of unique serial dilution protocols with each of the parameter sets specified by JMP. Serial dilutions are then performed to dilute Fluorescein using a dilution medium such as PBS. The accuracy of each dilution can be evaluated by comparing the measured fluorescence across the dilution to an expected dilution curve. This comparison is automatically processed by the Data Analysis Code C to give fitness data which can be reinput into the JMP table for analysis. 
 
-We envision this platform being highly applicable to protocol optimisation. Some fluids have challenging properties, such as extreme viscosity or density, reduced surface tension, a tendency to foam, or the presence of particles, cells, or precipitated material. These properties can reduce the accuracy of automated protocols. By performing serial dilution optimisation using these fluids, optimal paramters for pipetting and mixing can be found which will alleviate these problems. 
+We envision this platform being highly applicable to protocol optimisation. Some fluids have challenging properties, such as extreme viscosity or density, reduced surface tension, a tendency to foam, or the presence of particles, cells, or precipitated material. These properties can reduce the accuracy of automated protocols. By performing serial dilution optimisation using these fluids, optimal parameters for pipetting and mixing can be found, which will alleviate these problems. 
 
 The experiment execution code can also be altered to perform other pipetting workflows. By assigning our specific parameter names to the variables in a different experiment execution code, pipetting parameters can be optimised for other liquid-handling protocols which include pipetting and mixing steps. Optimised parameters can then be transferred to more complex workflows, allowing users to calibrate pipetting parameters using a simple model assay before applying it to their actual experiment.
 
@@ -57,9 +57,9 @@ It automatically:
 - Overrides defaults with values from each design row  
 - Fills missing parameter values
 - Embeds parameters into a protocol template  
-- Generates one Opentrons execution script (Code B) per experiment, which are ready to run on the OT-2
+- Generates one Opentrons execution script (Code B) per experiment, which is ready to run on the OT-2
 
-To load a JMP design add the pathway of the CSV file to the generator Code A: 
+To load a JMP design, add the pathway of the CSV file to the generator Code A: 
 
 - DESIGN_CSV = "Insert Pathway Here"
 
@@ -73,20 +73,20 @@ This code is provided by the generator code A and is already formatted to run on
 - Executes steps exactly as defined by Code A
 - Produces assay-ready plates for analysis of pipetting accuracy
 
-Prior to runnning the experiment the equipment should be laid out to match the code. To ensure correct pipetting:
+Before runnning the experiment, the equipment should be laid out to match the code. To ensure correct pipetting:
 
 - Pipette tips should be added to position 1.
-- The resevoir wells should be added to position 2.
+- The reservoir wells should be added to position 2.
 - The 96-well flat-bottom plate should be placed in position 3.
-- The fluorescein should be added to column 1 of the resevoir.
-- The dilution medium (e.g. PBS) should be added to column 6 of the resevoir.
+- The fluorescein should be added to column 1 of the reservoir.
+- The dilution medium (e.g. PBS) should be added to column 6 of the reservoir.
 
 If specific labware and instruments are required, these can be changed in the generator code A to ensure they are maintained in all Code B outputs.
 
-Code A was designed such that each output code B starts taking pipette tips from a different column in the tiprack, taking 3 columns of tip per dilution. Each protocol has an in-built start column parameter which indicates the first of the three columns used. This means that four protocols can be run before tips are reloaded, provided that they are run in order. To check the start column, look for the value of the start_col parameter in the dictionary called 'PARAMS'.
+Code A was designed such that each output code B starts taking pipette tips from a different column in the tip rack, taking 3 columns of tips per dilution. Each protocol has an in-built start column parameter, which indicates the first of the three columns used. This means that four protocols can be run before tips are reloaded, provided that they are run in order. To check the start column, look for the value of the start_col parameter in the dictionary called 'PARAMS'.
 
 ### 4. Data Analysis (Code C)
- This code (all .ipynb files in this repository) is bespoke, and was written for the FLUOstar Omega microplate reader by BMG LABTECH. To use this code, first ensure that the data from well A1 corresponds to cell b15 in your excel data file. Then add the excel file pathway to the code in the relevant position (indicated in the code).
+ This code (all .ipynb files in this repository) is bespoke and was written for the FLUOstar Omega microplate reader by BMG LABTECH. To use this code, first ensure that the data from well A1 corresponds to cell B15 in your excel data file. Then add the excel file pathway to the code in the relevant position (indicated in the code).
 
 - Imports fluorescence/absorbance data  
 - Averages replicates and formats data  
@@ -114,11 +114,11 @@ This optimisation pipeline is not limited to serial dilution. With small changes
 
 - **`Default_Params`**  
   
-  These are the available paramaters which can be optimised in JMP.
+  These are the available parameters which can be optimised in JMP.
   
   You can tune:
   
-  - global parameters: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height` set the defualt values of parameters not specified by JMP.
+  - global parameters: `Aspiration_Rate`, `Dispense_Rate`, `Aspiration_Height`, `Dispense_Height` set the default values of parameters not specified by JMP.
   - step-specific behaviour: `Aliquot_Aspiration_Rate`, `Dilution_Dispense_Rate`, `Mix_Aspiration_Height`.
   - mixing parameters: `Mixing_Repetitions`, `Mixing_Fraction`.
   - touch-tip parameters: `Touch_Tip_Speed`, `Touch_Tip_Radius`, `Touch_Tip_V_Offset` control the touch tip function that removes excess liquid from the pipette tip following mixing.
