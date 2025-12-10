@@ -284,11 +284,8 @@ def main(): #This is the main code-writer function.
             if params["Mix_Dispense_Height_Max"] is None:
                 params["Mix_Dispense_Height_Max"] = params["Mix_Dispense_Height"]
         
-            code = make_protocol_code(params, experiment_id) # Protocol code is made using params from a specific JMP row and the corresponding experiment id.
+            code = make_protocol_code(params, experiment_id)                      # Protocol code is made using params from a specific JMP row and the corresponding experiment id.
             filename = f"serial_dilution_BB_exp_{experiment_id}.py"
             with open(filename, "w") as out:
-                out.write(code) # The protocol code for the row is written as a separate .py file with the experiment ID in the name.
+                out.write(code)                                                   # The protocol code for the row is written as a separate .py file with the experiment ID in the name.
             print(f"Wrote {filename}")
-
-if __name__ == "__main__":
-    main()

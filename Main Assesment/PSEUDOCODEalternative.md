@@ -93,18 +93,18 @@ BEGIN run(protocol):
   ASSIGN reservoir wells: fluorescein_src, pbs_src, waste
   SELECT tips based on start_col
 
-  PICK UP fluor_tip
+  PICK UP fluorescein aliquotting tip
   ASPIRATE fluorescein from reservoir using aliquot settings
   DISPENSE into plate column 1
-  DROP TIP
+  DROP TIPS
 
-  PICK UP pbs_tip
+  PICK UP pbs aliquotting tip
   FOR each column from 2 to 12:
       ASPIRATE PBS using aliquot settings
       DISPENSE into destination column
-  DROP TIP
+  DROP TIPS
 
-  PICK UP dilution_tip
+  PICK UP dilution and mixing tip
   FOR col = 1 to 10:
       ASPIRATE dilution volume from plate[col]
       DISPENSE into plate[col+1]
@@ -116,11 +116,11 @@ BEGIN run(protocol):
           CHOOSE random dispense height between Mix_Dispense_Min and Max
           DISPENSE mix_volume at that height
 
-      TOUCH TIP using specified speed, radius, offset
+      TOUCH TIPS using specified speed, radius, offset
 
-  ASPIRATE small volume from second-to-last column
+  ASPIRATE dilution volume from second-to-last column
   DISPENSE into waste
-  DROP TIP
+  DROP TIPS
 
 END
 
