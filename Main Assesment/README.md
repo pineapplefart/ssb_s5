@@ -77,13 +77,13 @@ Prior to runnning the experiment the equipment should be laid out to match the c
 
 - Pipette tips should be added to position 1.
 - The resevoir wells should be added to position 2.
-- The 96-well plate should be placed in position 3.
+- The 96-well flat-bottom plate should be placed in position 3.
 - The fluorescein should be added to column 1 of the resevoir.
-- The dilution medium (e.g. PBS) should be added to column 6.
+- The dilution medium (e.g. PBS) should be added to column 6 of the resevoir.
 
 If specific labware and instruments are required, these can be changed in the generator code A to ensure they are maintained in all Code B outputs.
 
-Code A was designed such that each output code B starts taking pipette tips from a different column in the tiprack, taking 3 columns of tip per dilution. Each protocol has an in-built start column parameter which indicates the first of the three columns used. This means that four protocols can be run before tips are reloaded. To check the start column, look for the value of the start_col parameter in the dictionary called 'PARAMS'.
+Code A was designed such that each output code B starts taking pipette tips from a different column in the tiprack, taking 3 columns of tip per dilution. Each protocol has an in-built start column parameter which indicates the first of the three columns used. This means that four protocols can be run before tips are reloaded, provided that they are run in order. To check the start column, look for the value of the start_col parameter in the dictionary called 'PARAMS'.
 
 ### 4. Data Analysis (Code C)
 
