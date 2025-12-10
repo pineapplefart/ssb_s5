@@ -89,9 +89,11 @@ Code A was designed such that each output code B starts taking pipette tips from
 
 - Imports fluorescence/absorbance data  
 - Averages replicates and formats data  
-- Fits dilution curves and calculates metrics (e.g., gradient, R²)  
-- Outputs a results to a CSV
-- This code is bespoke for our fluoresence machine, the arguments in the to_excel() function will need to be changed depending on the output layout.
+- Fits dilution curves and calculates gradient and R² as fitness metrics 
+- Outputs results as a CSV
+
+To use this code, first ensue that well A1 is at cell b15 in your excel file. Then add the excel file pathway to the code in the relevant position (indicated in the code).
+
 - **NOTE: YOU MUST COLLECT THE RUNTIME DATA MANUALLY. THE OT-2 DOES NOT SUPPORT OUTPUTTING THE RUNTIME DATA**
 
 ### 5. Optimisation in JMP
