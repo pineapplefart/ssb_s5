@@ -144,24 +144,26 @@ CSV of summary metrics (gradient, R², experiment ID)
 ```text
 BEGIN
 
-  fluorescein concentrations
-  CREATE vector columns = [1, 2, ..., 11]
-  CREATE vector fluor_conc where fluor_conc[i] = 10 / (2^i)
-  CREATE dataframe blank_corrected with columns:
-      "Column"      = columns
-      "Fluor_conc"  = fluor_conc
+  Create dataframe to store data
+  CREATE vector columns = [1, 2, ..., 11] one for each column in the 96-well plate
+  CREATE vector theoretical concentration values, fluor_conc
+  ADD vectors to a pandas dataframe (blank_corrected) via a library
 
   FOR experiment i from 1 to 15:
 
-      READ Excel file "bb<i>.xlsx" (sheet "End point", columns B–L, 9 rows)
-      FOR each of the 11 columns:
-          CALCULATE mean over the 9 rows
-      STORE the 11 means as a new column in blank_corrected named "df<i>_bc"
+    READ Excel file "bb<i>.xlsx" (sheet "End point", columns B–L, 9 rows)
+    STORE data as a dataframe(f"df{i}") in a library (dfs)
+
+        FOR columns in dataframe(f"df{i}") 1 to 11:
+            CALCULATE Average of columns per experiment
+            STORE averages as an array
+    APPEND array to blank_corrected dataframe, one for each experiment
+      
 
   TAKE base-10 logarithm of all numeric values in blank_corrected
-  STORE as log_df
+  STORE as log_df. This makes theoretical concentrations in log form.
 
-  SET x = log_df["Fluor_conc"]
+  SET x = log_df["Fluor_conc"] (log theoretical concentrations)
 
   INITIALISE empty lists: slopes, r2_vals
 
@@ -206,5 +208,6 @@ BEGIN
   PRINT global_cv  # one average CV value per experiment
 
 END
+
 
 ```
